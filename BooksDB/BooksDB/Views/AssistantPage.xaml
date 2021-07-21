@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:BooksDB.ViewModels"
+             xmlns:models="clr-namespace:BooksDB.Models"
+             x:Class="BooksDB.Views.AssistantPage"
+             x:Name="assistantPage">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="9*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="7*"/>
+        </Grid.ColumnDefinitions>
+
+        <Button Grid.Row="0" Grid.Column="0"
+                Text="Recommend" Command="{Binding GetRecommendationsCommand}"/>
+
+        <Entry Grid.Row="0" Grid.Column="1"
+               Text="{Binding StartingTitle}" Placeholder="Insert a book title"/>
+
+        <CollectionView
+                Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                ItemsSource="{Binding Books}"
+                SelectionMode="Single"
+                SelectedItem="{Binding SelectedBook}"
+                SelectionChangedCommand="{Binding ShowBookDetailsCommand}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Book">
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <SwipeItem Text="Add" IconImageSource="icon_add.png" BackgroundColor="{StaticResource Primary}"
+                                               Command="{Binding BindingContext.AddToLibraryCommand, Source={x:Reference assistantPage}}" CommandParameter="{Binding .}"/>
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="4"
+                               Source="{Binding ImageUrl}"
+                               WidthRequest="134"
+                               Aspect="AspectFit"
+                               Margin="8"/>
+                            <Label Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"
+                               Text="{Binding Title}"
+                               FontSize="18"
+                               VerticalOptions="Center"
+                               FontAttributes="Bold"
+                               Margin="8, 0"
+                               LineBreakMode="WordWrap"
+                               MaxLines="2"/>
+                            <Label Grid.Row="2" Grid.Column="1" Grid.RowSpan="2"
+                               Text="{Binding Author}"
+                               FontSize="16"
+                               VerticalOptions="Start"
+                               Margin="8, 0"/>
+                        </Grid>
+                    </SwipeView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

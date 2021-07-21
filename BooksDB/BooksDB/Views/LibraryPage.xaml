@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:BooksDB.ViewModels"
+             xmlns:models="clr-namespace:BooksDB.Models"
+             x:Class="BooksDB.Views.LibraryPage">
+
+    <RefreshView x:DataType="vm:LibraryViewModel" Command="{Binding LoadBooksCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+        <CollectionView x:Name="BooksListView"
+                ItemsSource="{Binding Books}"
+                SelectionMode="Single"
+                SelectedItem="{Binding SelectedBook}"
+                SelectionChangedCommand="{Binding ShowBookDetailsCommand}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Book">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="4"
+                               Source="{Binding ImageUrl}"
+                               WidthRequest="134"
+                               Aspect="AspectFit"
+                               Margin="8"/>
+                        <Label Grid.Row="1" Grid.Column="1"
+                               Text="{Binding Title}"
+                               FontSize="18"
+                               VerticalOptions="Center"
+                               FontAttributes="Bold"
+                               Margin="8, 0"/>
+                        <Label Grid.Row="2" Grid.Column="1"
+                               Text="{Binding Author}"
+                               FontSize="16"
+                               VerticalOptions="Start"
+                               Margin="8, 0"/>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </RefreshView>
+
+</ContentPage>

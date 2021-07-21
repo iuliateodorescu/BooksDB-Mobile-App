@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:BooksDB.ViewModels"
+             xmlns:models="clr-namespace:BooksDB.Models"
+             x:Class="BooksDB.Views.HomePage"
+             x:Name="homePage">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Logout" Command="{Binding LogOutCommand}"/>
+    </ContentPage.ToolbarItems>
+
+    <StackLayout>
+        <Image Source="app_logo.jpeg" HeightRequest="120" Aspect="Fill"/>
+
+        <SearchBar Placeholder="Search by title..."
+                   x:DataType="vm:HomeViewModel"
+                   Text="{Binding QueryText}"
+                   SearchCommand="{Binding SearchCommand}"
+                   CancelButtonColor="Black"
+                   PlaceholderColor="Gray"
+                   TextColor="Black"
+                   HorizontalTextAlignment="Start"
+                   FontSize="16"/>
+
+        <RefreshView x:DataType="vm:HomeViewModel" Command="{Binding LoadBooksCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+            <CollectionView x:Name="BooksListView"
+                ItemsSource="{Binding Books}"
+                SelectionMode="Single"
+                SelectedItem="{Binding SelectedBook}"
+                SelectionChangedCommand="{Binding ShowBookDetailsCommand}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Book">
+                        <SwipeView>
+                            <SwipeView.RightItems>
+                                <SwipeItems>
+                                    <SwipeItem Text="Add" IconImageSource="icon_add.png" BackgroundColor="{StaticResource Primary}"
+                                               Command="{Binding BindingContext.AddToLibraryCommand, Source={x:Reference homePage}}" CommandParameter="{Binding .}"/>
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Image Grid.Row="0" Grid.Column="0" Grid.RowSpan="4"
+                               Source="{Binding ImageUrl}"
+                               WidthRequest="134"
+                               Aspect="AspectFit"
+                               Margin="8"/>
+                                <Label Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"
+                               Text="{Binding Title}"
+                               FontSize="18"
+                               VerticalOptions="Center"
+                               FontAttributes="Bold"
+                               Margin="8, 0"
+                               LineBreakMode="WordWrap"
+                               MaxLines="2"/>
+                                <Label Grid.Row="2" Grid.Column="1" Grid.RowSpan="2"
+                               Text="{Binding Author}"
+                               FontSize="16"
+                               VerticalOptions="Start"
+                               Margin="8, 0"/>
+                            </Grid>
+                            </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </StackLayout>
+</ContentPage>

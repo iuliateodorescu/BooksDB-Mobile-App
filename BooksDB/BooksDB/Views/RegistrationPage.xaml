@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BooksDB.Views.RegistrationPage"
+             Shell.NavBarIsVisible="True">
+    <ContentPage.Content>
+        <StackLayout Padding="30,0,30,0" VerticalOptions="Center"
+                     HorizontalOptions="FillAndExpand">
+            <Label Text="First name:"/>
+            <Entry Placeholder="First name" Text="{Binding FirstName}"/>
+            <Label Text="Last name:"/>
+            <Entry Placeholder="Last name" Text="{Binding LastName}"/>
+            <Label Text="Username:"/>
+            <Entry Placeholder="Username" Text="{Binding Username}"/>
+            <Label Text="e-mail:"/>
+            <Entry Placeholder="e-mail" Text="{Binding Email}"/>
+            <Label Text="Password:"/>
+            <Entry IsPassword="True" Placeholder="Password" Text="{Binding Password}"/>
+            <Button VerticalOptions="Center" Text="Register" Command="{Binding RegistrationCommand}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
